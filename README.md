@@ -1,0 +1,2 @@
+# autoinstall
+Subiquity autoinstall configs
