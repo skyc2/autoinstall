@@ -16,6 +16,3 @@ Usage:  [options]
 --output <output_dir> set output directory (default ./deploy/<hostname>)
 
 ```
-
-to see all the options.
-
