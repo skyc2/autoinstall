@@ -1,12 +1,12 @@
 version: 1
 identity:
-  hostname: idxe1
+  hostname: idxe2
 source:
   id: ubuntu-server-minimal
 user-data:
   users:
     - name: idx
-      passwd: "$6$oZRCXCp8i2Z4H6JR$hhoqW/LT3TpRu/90eLdeMp9ktPKGiN9bJMyunv3P9ZReJr.rW24cDLGjKDnh3OAUGkOR3jhzLlGLHrVMI15dw0"
+      passwd: "$6$TThoKV/x1YmdHBIM$VenCM6bc9yT1rdC7a734oO7tkG7fw9/IsDZM.0qJ2OthcRbl5AA6pbHvhe3V8V/Fa/4567yKg8IJe6td3.5A50"
 ssh:
   install-server: true
   authorized-keys:

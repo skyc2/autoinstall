@@ -31,6 +31,7 @@ storage:
     name: lvm
     password: "${LUKSPW}"
 packages:
+  - clevis-luks
   - vim-tiny
   - iputils-ping
 EOC
@@ -44,8 +45,8 @@ usage_exit() {
   cat <<EOU
 Usage: $SELF [options]
 
---host <hostname> set hostname
---user <username> set username
+--host <hostname>     set hostname
+--user <username>     set username
 --password <password> set user password
 --source <source-id>  set source id (ubuntu-server etc.)
 --luks-pw <disk-encryption-passphrase> set full disk encryption passphrase
