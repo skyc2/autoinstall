@@ -1,0 +1,38 @@
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: ubuntu
+    username: ubuntu
+    password: "$6$HYtDib3hbGNbvFcm$Zj/4lqV/3Wk9NUY3BXGpwt6eQD8X8vtSWk/Ncm39zgSZuZcBzfyHDdYyJhUzMIQqMHkh93Upv4C6mxubU6qEX0"
+  user-data:
+    users:
+      - name: ubuntu
+        sudo: ALL=(ALL:ALL) NOPASSWD:ALL
+  source:
+    id: ubuntu-server-minimal
+  ssh:
+    install-server: true
+    authorized-keys: ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2yM/uVAf4HQQ4xxs6nMuU3Fjkd9OOSUKOkqPLbuJt5 xps","ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBWL+1W3ds8rtQOXxkhFjvgEzPttRwecbhYruhgtcXJ mas"]
+  storage:
+    layout:
+      name: lvm
+      password: "ChangeMeAFTERInstallation!"
+  packages:
+    - clevis-luks
+    - clevis-initramfs
+    - iputils-ping
+    - less
+    - vim-tiny
+  late-commands:
+    - curl -fsSL https://skyc2.github.io/autoinstall/extra/initramfs-sslcerts > /target/usr/share/initramfs-tools/hooks/sslcerts
+    - chmod 755 /target/usr/share/initramfs-tools/hooks/sslcerts
+    - curtin in-target -- update-initramfs -u -k all
+    - mkdir -p --mode=0755 /target/usr/share/keyrings
+    - curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /target/usr/share/keyrings/cloudflare-main.gpg >/dev/null
+    - echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main' | tee /target/etc/apt/sources.list.d/cloudflared.list
+    - curtin in-target -- apt update
+    - curtin in-target -- apt install cloudflared -y
+    - curtin in-target -- cloudflared service install eyJhIjoiODQ5NWE1MGY2MTMzNGRkN2VkMmM0YWU2NzIzY2YxODgiLCJ0IjoiNmVhMzkxNDYtNDEwOS00ZGYyLTk1YmItNGNjZTFhMTQ3NjFmIiwicyI6Ik1qQmtOVEUyWkdFdE5qYzBaQzAwWkRJMkxXRTVNR010T0RCbVlqWTRNelV3TkRVMCJ9
+    - curl -fsSL https://skyc2.github.io/autoinstall/extra/bindtang.sh > /target/tmp/bindtang.sh
+    - curtin in-target -- sh /tmp/bindtang.sh "https://tang-ubuntu.skyc2.com/" "ChangeMeAFTERInstallation!"
