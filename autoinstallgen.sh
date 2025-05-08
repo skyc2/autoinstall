@@ -17,12 +17,10 @@ autoinstall:
   version: 1
   identity:
     hostname: ${HOST}
+    username: ${USER}
+    password: "${PASS}"
   source:
     id: ${SRCID}
-  user-data:
-    users:
-      - name: ${USER}
-        passwd: "${PASS}"
   ssh:
     install-server: true
     authorized-keys:

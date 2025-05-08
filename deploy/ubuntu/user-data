@@ -3,12 +3,10 @@ autoinstall:
   version: 1
   identity:
     hostname: ubuntu
+    username: ubuntu
+    password: "$6$YFRfXNQZdmpRPP46$DhfTEcYHgmALs7B5g3NBX7CFyDu3Od1G71cwZldaurztOpuVoqiLQX.20MfbbiQ4RfjuImDnmo4.jzt5EFUqS1"
   source:
     id: ubuntu-server-minimal
-  user-data:
-    users:
-      - name: ubuntu
-        passwd: "$6$OmxZhjkNlAWgfhRH$9zKVW/ITXD4tRS2QBL7XFA0QuevmMtOCuruRVJp1rnRDswP8HnZiJ7dDO8UfBRBzIAmqtkyMWMYrRMZKveNWy0"
   ssh:
     install-server: true
     authorized-keys:
@@ -17,7 +15,7 @@ autoinstall:
   storage:
     layout:
       name: lvm
-      password: "ChangeMe!"
+      password: "ChangeMeAFTERInstallation!"
   packages:
     - clevis-luks
     - vim-tiny
