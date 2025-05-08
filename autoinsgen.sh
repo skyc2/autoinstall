@@ -12,28 +12,30 @@ PRESET=lvm_luks
 
 gen_lvm_luks() {
   cat <<EOC
-version: 1
-identity:
-  hostname: ${HOST}
-source:
-  id: ${SRCID}
-user-data:
-  users:
-    - name: ${USER}
-      passwd: "${PASS}"
-ssh:
-  install-server: true
-  authorized-keys:
-    - ${SSHK1}
-    - ${SSHK2}
-storage:
-  layout:
-    name: lvm
-    password: "${LUKSPW}"
-packages:
-  - clevis-luks
-  - vim-tiny
-  - iputils-ping
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: ${HOST}
+  source:
+    id: ${SRCID}
+  user-data:
+    users:
+      - name: ${USER}
+        passwd: "${PASS}"
+  ssh:
+    install-server: true
+    authorized-keys:
+      - ${SSHK1}
+      - ${SSHK2}
+  storage:
+    layout:
+      name: lvm
+      password: "${LUKSPW}"
+  packages:
+    - clevis-luks
+    - vim-tiny
+    - iputils-ping
 EOC
 }
 

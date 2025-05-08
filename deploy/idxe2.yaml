@@ -1,22 +1,24 @@
-version: 1
-identity:
-  hostname: idxe2
-source:
-  id: ubuntu-server-minimal
-user-data:
-  users:
-    - name: idx
-      passwd: "$6$TThoKV/x1YmdHBIM$VenCM6bc9yT1rdC7a734oO7tkG7fw9/IsDZM.0qJ2OthcRbl5AA6pbHvhe3V8V/Fa/4567yKg8IJe6td3.5A50"
-ssh:
-  install-server: true
-  authorized-keys:
-    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2yM/uVAf4HQQ4xxs6nMuU3Fjkd9OOSUKOkqPLbuJt5 xps
-    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBWL+1W3ds8rtQOXxkhFjvgEzPttRwecbhYruhgtcXJ m2
-storage:
-  layout:
-    name: lvm
-    password: "ChangeMe!"
-packages:
-  - clevis-luks
-  - vim-tiny
-  - iputils-ping
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: idxe2
+  source:
+    id: ubuntu-server-minimal
+  user-data:
+    users:
+      - name: idx
+        passwd: "$6$PdBI9ormpUvpw7tG$72ZqSVJxaUmRUnKtJWVN8bTMxtNxwf7qEfftc5MjQqrFpOxvIjoBMD3kALC1aDB7f7zD.womWat6HTI/uGi6J1"
+  ssh:
+    install-server: true
+    authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2yM/uVAf4HQQ4xxs6nMuU3Fjkd9OOSUKOkqPLbuJt5 xps
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBWL+1W3ds8rtQOXxkhFjvgEzPttRwecbhYruhgtcXJ m2
+  storage:
+    layout:
+      name: lvm
+      password: "ChangeMe!"
+  packages:
+    - clevis-luks
+    - vim-tiny
+    - iputils-ping
