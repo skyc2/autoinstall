@@ -1,9 +1,9 @@
-# Subiquity autoinstall configs
+# Subiquity autoinstall config tool
 
-## CLI to generate the autoinstall.yaml
+## CLI to generate the user-data for cloud autoinstall
 
 ```
-./autoinsgen.sh --help
+./autoinstallgen.sh --help
 
 ```
 

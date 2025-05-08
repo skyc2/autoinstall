@@ -5,13 +5,13 @@ USER=ubuntu
 HOST=ubuntu
 PASS=$(echo ubuntu | mkpasswd -m sha-512 -s)
 SRCID="ubuntu-server-minimal"
-LUKSPW="ChangeMe!"
+LUKSPW="ChangeMeAFTERInstallation!"
 SSHK1="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2yM/uVAf4HQQ4xxs6nMuU3Fjkd9OOSUKOkqPLbuJt5 xps"
 SSHK2="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBWL+1W3ds8rtQOXxkhFjvgEzPttRwecbhYruhgtcXJ m2"
 PRESET=lvm_luks
 
 gen_lvm_luks() {
-  cat <<EOC
+  cat <<EOC > "$OUTFILE"
 #cloud-config
 autoinstall:
   version: 1
@@ -54,6 +54,7 @@ Usage: $SELF [options]
 --luks-pw <disk-encryption-passphrase> set full disk encryption passphrase
 --ssh-key1 <ssh-pub-key-1> set a ssh public key for the user
 --ssh-key2 <ssh-pub-key-2> set another public key
+--output <output_dir> set output directory (default ./deploy/<hostname>)
 EOU
   exit
 }
@@ -61,10 +62,11 @@ EOU
 while [ $# -gt 0 ]; do
   case $1 in
     --host) HOST=$2; shift;;
-    --user) USER=$2; shift;;
-    --password) PASS=$(echo "$2" | mkpasswd -m sha-512 -s); shift;;
-    --source) SRCID=$2; shift;;
-    --luks-pw) LUKSPW=$2; shift;;
+    --user|-u) USER=$2; shift;;
+    --password|-p) PASS=$(echo "$2" | mkpasswd -m sha-512 -s); shift;;
+    --source|-s) SRCID=$2; shift;;
+    --luks-pw|-e) LUKSPW=$2; shift;;
+    --output|-o) OUTDIR=$2; shift;;
     --preset) PRESET=$2; shift;;
     --ssh-key1) SSHK1=$2; shift;;
     --ssh-key2) SSHK2=$2; shift;;
@@ -73,5 +75,14 @@ while [ $# -gt 0 ]; do
   esac
   shift
 done
+
+OUTDIR=${OUTDIR:-"deploy/$HOST"}
+case "$OUTDIR" in
+  -) OUTFILE=/dev/stdout;;
+  *) mkdir -p "$OUTDIR"
+     OUTFILE="$OUTDIR/user-data"
+     echo "#empty" > "$OUTDIR/meta-data";;
+esac
+[ "$OUTDIR" = - ] && OUTDIR=/dev/stdout
 
 gen_"$PRESET"

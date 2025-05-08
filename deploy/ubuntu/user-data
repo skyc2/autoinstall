@@ -2,13 +2,13 @@
 autoinstall:
   version: 1
   identity:
-    hostname: idxe2
+    hostname: ubuntu
   source:
     id: ubuntu-server-minimal
   user-data:
     users:
-      - name: idx
-        passwd: "$6$PdBI9ormpUvpw7tG$72ZqSVJxaUmRUnKtJWVN8bTMxtNxwf7qEfftc5MjQqrFpOxvIjoBMD3kALC1aDB7f7zD.womWat6HTI/uGi6J1"
+      - name: ubuntu
+        passwd: "$6$OmxZhjkNlAWgfhRH$9zKVW/ITXD4tRS2QBL7XFA0QuevmMtOCuruRVJp1rnRDswP8HnZiJ7dDO8UfBRBzIAmqtkyMWMYrRMZKveNWy0"
   ssh:
     install-server: true
     authorized-keys:
