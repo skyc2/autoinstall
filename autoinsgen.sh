@@ -8,8 +8,9 @@ SRCID="ubuntu-server-minimal"
 LUKSPW="ChangeMe!"
 SSHK1="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ2yM/uVAf4HQQ4xxs6nMuU3Fjkd9OOSUKOkqPLbuJt5 xps"
 SSHK2="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBWL+1W3ds8rtQOXxkhFjvgEzPttRwecbhYruhgtcXJ m2"
+PRESET=lvm_luks
 
-gen_config() {
+gen_lvm_luks() {
   cat <<EOC
 version: 1
 identity:
@@ -61,6 +62,7 @@ while [ $# -gt 0 ]; do
     --password) PASS=$(echo "$2" | mkpasswd -m sha-512 -s); shift;;
     --source) SRCID=$2; shift;;
     --luks-pw) LUKSPW=$2; shift;;
+    --preset) PRESET=$2; shift;;
     --ssh-key1) SSHK1=$2; shift;;
     --ssh-key2) SSHK2=$2; shift;;
     --help|-h) usage_exit;;
@@ -69,4 +71,4 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-gen_config
+gen_"$PRESET"
