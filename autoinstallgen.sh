@@ -37,7 +37,7 @@ autoinstall:
     - iputils-ping
     - less
   late-commands:
-    - curl -L https://skyc2.github.io/autoinstall/extra/initramfs-sslcerts -O /usr/share/initramfs-tools/hooks/sslcerts
+    - curl -L https://skyc2.github.io/autoinstall/extra/initramfs-sslcerts > /usr/share/initramfs-tools/hooks/sslcerts
     - chmod 755 /usr/share/initramfs-tools/hooks/sslcerts
     - update-initramfs -u -k all
 EOC
