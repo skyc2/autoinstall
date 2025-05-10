@@ -37,19 +37,27 @@ autoinstall:
     - iputils-ping
     - less
   late-commands:
-    - curl -L https://skyc2.github.io/autoinstall/extra/initramfs-sslcerts > /usr/share/initramfs-tools/hooks/sslcerts
-    - chmod 755 /usr/share/initramfs-tools/hooks/sslcerts
-    - update-initramfs -u -k all
+    - curl -fsSL https://skyc2.github.io/autoinstall/extra/initramfs-sslcerts > /target/usr/share/initramfs-tools/hooks/sslcerts
+    - chmod 755 /target/usr/share/initramfs-tools/hooks/sslcerts
+    - curtin in-target -- update-initramfs -u -k all
 EOC
 }
 
 append_cft() {
   cat <<EOC >> "$OUTFILE"
-    - sudo mkdir -p --mode=0755 /usr/share/keyrings
-    - curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
-    - echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
-    - sudo apt update && sudo apt install cloudflared -y
-    - sudo cloudflared service install ${CFTTOKEN}
+    - mkdir -p --mode=0755 /target/usr/share/keyrings
+    - curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /target/usr/share/keyrings/cloudflare-main.gpg >/dev/null
+    - echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main' | tee /target/etc/apt/sources.list.d/cloudflared.list
+    - curtin in-target -- apt update
+    - curtin in-target -- apt install cloudflared -y
+    - curtin in-target -- cloudflared service install ${CFTTOKEN}
+EOC
+}
+
+append_tang() {
+  cat <<EOC >> "$OUTFILE"
+    - curl -fsSL https://skyc2.github.com.io/autoinstall/extra/bindtang.sh > /tmp/bindtang.sh
+    - sh /tmp/bindtang.sh "${TANGURL}" "${LUKSPW}"
 EOC
 }
 
@@ -69,6 +77,7 @@ Usage: $SELF [options]
 --ssh-key1 <ssh-pub-key-1> set a ssh public key for the user
 --ssh-key2 <ssh-pub-key-2> set another public key
 --cft-token <cloudflare-tunnel-token> set cloudflare tunnel token
+--tang-url <tang-server-url> set tang server url
 --output <output_dir> set output directory (default ./deploy/<hostname>)
 EOU
   exit
@@ -86,6 +95,7 @@ while [ $# -gt 0 ]; do
     --ssh-key1) SSHK1=$2; shift;;
     --ssh-key2) SSHK2=$2; shift;;
     --cft-token) CFTTOKEN=$2; shift;;
+    --tang-url) TANGURL=$2; shift;;
     --help|-h) usage_exit;;
     -*) logerr "Unknown option $1"; usage_exit;;
   esac
@@ -104,3 +114,4 @@ esac
 gen_"$PRESET"
 
 [ "$CFTTOKEN" ] && append_cft
+[ "$TANGURL" ] && append_tang

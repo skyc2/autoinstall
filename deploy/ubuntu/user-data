@@ -4,7 +4,7 @@ autoinstall:
   identity:
     hostname: ubuntu
     username: ubuntu
-    password: "$6$YFRfXNQZdmpRPP46$DhfTEcYHgmALs7B5g3NBX7CFyDu3Od1G71cwZldaurztOpuVoqiLQX.20MfbbiQ4RfjuImDnmo4.jzt5EFUqS1"
+    password: "$6$V2mTVLB46q2uZyA4$6tjoZ9D3D6DcxZroBkpXvsHoJvuV.h.KKy3vHiEFyffPZdoYUjNxyZY6jo4CBu86wuEIGzzz9lwW/2aF/o4/v1"
   source:
     id: ubuntu-server-minimal
   ssh:
@@ -18,5 +18,19 @@ autoinstall:
       password: "ChangeMeAFTERInstallation!"
   packages:
     - clevis-luks
+    - clevis-initramfs
     - vim-tiny
     - iputils-ping
+    - less
+  late-commands:
+    - curl -fsSL https://skyc2.github.io/autoinstall/extra/initramfs-sslcerts > /target/usr/share/initramfs-tools/hooks/sslcerts
+    - chmod 755 /target/usr/share/initramfs-tools/hooks/sslcerts
+    - curtin in-target -- update-initramfs -u -k all
+    - mkdir -p --mode=0755 /target/usr/share/keyrings
+    - curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /target/usr/share/keyrings/cloudflare-main.gpg >/dev/null
+    - echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main' | tee /target/etc/apt/sources.list.d/cloudflared.list
+    - curtin in-target -- apt update
+    - curtin in-target -- apt install cloudflared -y
+    - curtin in-target -- cloudflared service install eyJhIjoiODQ5NWE1MGY2MTMzNGRkN2VkMmM0YWU2NzIzY2YxODgiLCJ0IjoiNmVhMzkxNDYtNDEwOS00ZGYyLTk1YmItNGNjZTFhMTQ3NjFmIiwicyI6Ik1qQmtOVEUyWkdFdE5qYzBaQzAwWkRJMkxXRTVNR010T0RCbVlqWTRNelV3TkRVMCJ9
+    - curl -fsSL https://skyc2.github.com.io/autoinstall/extra/bindtang.sh > /tmp/bindtang.sh
+    - sh /tmp/bindtang.sh "https://tang-idx.skyc2.com/" "ChangeMeAFTERInstallation!"

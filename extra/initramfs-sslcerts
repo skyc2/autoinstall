@@ -25,6 +25,6 @@ die() {
 # Install certs
 mkdir -p "$DESTDIR/etc/ssl/certs"
 cp -a /etc/ssl/certs/ca-certificates.crt "$DESTDIR/etc/ssl/certs/" || die "/etc/ssl/certs/ca-certificates.crt not found"
-cp -a /etc/ca-certificates.conf "$DESTDIR}/etc/" || die "ca-certificates.conf not found"
+cp -a /etc/ca-certificates.conf "$DESTDIR/etc/" || die "ca-certificates.conf not found"
 
 exit 0
