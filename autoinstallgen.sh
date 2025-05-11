@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SELF=${0##*/}
+
 # defaults
 USER=ubuntu
 HOST=ubuntu
