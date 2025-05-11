@@ -82,7 +82,7 @@ Boot [netboot.xyz](https://netboot.xyz/), select:
                             /Specify preseed/autoinstall url...
 
 ```
-and enter: https://skyc2.github.com/autoinstall/deploy/ubuntu
+and enter: https://skyc2.github.io/autoinstall/deploy/ubuntu
 to deploy the example in this repo, which gives me access to your server :)
 
 
