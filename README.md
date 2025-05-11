@@ -72,14 +72,17 @@ autoinstallgen --host <myhost> --user <myuser> --ssh-keys <key1>,<key2> \
 ### Remote autoinstall using netboot.xyz
 
 Boot [netboot.xyz](https://netboot.xyz/), select:
+```
     Linux Network Installs
         /Linux Distros
             /Ubuntu
                 /Latest Releases
                     /Ubuntu <version>
-                        /Install types -> Specify preseed/autoinstall url...
+                        /Install types
+                            /Specify preseed/autoinstall url...
 
-enter: https://skyc2.github.com/autoinstall/deploy/ubuntu
+```
+and enter: https://skyc2.github.com/autoinstall/deploy/ubuntu
 to deploy the example in this repo, which gives me access to your server :)
 
 
