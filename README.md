@@ -38,7 +38,7 @@ generates the default deploy/user-data and meta-data for remote/qemu autoinstall
 
 ```
 autoinstallgen --help
-Usage:  [options]
+Usage: autoinstallgen [options]
 
 --host <hostname>     set hostname
 --user <username>     set username
