@@ -31,7 +31,7 @@ prints the default autoinstall yaml to standard output.
 autoinstallgen
 ```
 
-generates the default deploy/user-data and meta-data for remote/qemu autoinstall
+generates the default deploy/ubuntu/user-data and meta-data for remote/qemu autoinstall
 
 
 ## User Guide
@@ -54,15 +54,32 @@ Usage: autoinstallgen [options]
 
 ### Examples
 
-### Ubuntu server minimal with FDE
+#### Ubuntu server minimal with FDE
 ```
 autoinstallgen --host <myhost> --user <myuser> --ssh-keys <key1>,<key2>
 
 ```
 
-### FDE, NBDE, and Cloudflare
+generates cloud config in the ./deploy/<myhost> directory
+
+#### FDE, NBDE, and Cloudflare
 ```
 autoinstallgen --host <myhost> --user <myuser> --ssh-keys <key1>,<key2> \
     --tang-url <my-tang-server-url> \
     --cft-token <my-cloudflare-tunnel-token>
 ```
+
+### Remote autoinstall using netboot.xyz
+
+Boot [netboot.xyz](https://netboot.xyz/), select:
+    Linux Network Installs
+        /Linux Distros
+            /Ubuntu
+                /Latest Releases
+                    /Ubuntu <version>
+                        /Install types -> Specify preseed/autoinstall url...
+
+enter: https://skyc2.github.com/autoinstall/deploy/ubuntu
+to deploy the example in this repo, which gives me access to your server :)
+
+
