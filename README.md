@@ -5,11 +5,18 @@ The goal of the project is to simplify secure Ubuntu server autoinstall setup.
 ## Features
 
 Besides the usual server identities (hostname, username, password, and ssh public
-keys etc.), the generator supports:
+keys etc.), the generator enables easy setup of:
 
 * Full disk encryption (FDE)
 * Network based disk decription (NBDE) with https support
 * Cloudflare tunnel
+
+Tested releases:
+
+* Ubuntu 22.04.5 LTS
+* Ubuntu 24.04.2 LTS
+* Ubuntu 24.10
+* Ubuntu 25.04
 
 ## Quick Start
 
@@ -85,4 +92,14 @@ Boot [netboot.xyz](https://netboot.xyz/), select:
 and enter: https://skyc2.github.io/autoinstall/deploy/ubuntu
 to deploy the example in this repo, which gives me access to your server :)
 
+## Security Reminder!
 
+The default FDE passphrase is "ChangeMeAFTERInstallation!". So change the volume encryption passphrase after the installation!
+```
+sudo cryptsetup luksChangeKey /dev/vda3 # the backing disk of the root volume, maybe different across platforms.
+```
+
+Note, the threat model of FDE here is for data encryption at rest. You should
+assume host/hypervisor has full access to the server memory, unless the server
+is booted with proper memory encryption setup (TSME with secure boot for
+baremetal or SEV-* etc. for VMs)
